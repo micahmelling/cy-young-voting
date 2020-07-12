@@ -1,0 +1,17 @@
+*.txt
+!requirements.txt
+*.pyc
+*.DS_Store
+*.csv
+*.xlsx
+*.db
+*.png
+*.pkl
+scratch.py
+.idea/
+__pycache__/
+venv/
+catboost_info/
+scratch/
+
+
