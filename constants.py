@@ -14,6 +14,7 @@ PLOTS_DIRECTORY = 'plots'
 TEST_SET_DIRECTORY = 'test_set_scores'
 SHAP_VALUES_DIRECTORY = 'shap_values'
 DATA_DIRECTORY = 'data'
+CV_SPLITS = 5
 
 
 PARAM_SPACE_CONSTANT = {'feature_selector__percentile': hp.randint('feature_selector__percentile', 10, 100)}

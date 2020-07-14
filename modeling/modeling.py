@@ -47,7 +47,7 @@ def create_custom_train_test_split(df, target, test_set_percent, individual_id):
     return x_train, y_train, x_test, y_test
 
 
-def _create_custom_cv(train_df, individual_id, folds):
+def create_custom_cv(train_df, individual_id, folds):
     """
     Creates a custom train-test split for cross validation. This helps prevent leakage of individual-level player
     effects the model does not capture.
@@ -150,7 +150,7 @@ def produce_shap_values(pipe, x_test, num_features, model_name):
 
 
 @timer
-def train_model(x_train, y_train, x_test, y_test, model_name, get_pipeline_function, model, param_space, cv_folds,
+def train_model(x_train, y_train, x_test, y_test, model_name, get_pipeline_function, model, param_space, cv_scheme,
                 iterations):
     """
     Trains a regression machine learning model. Hyperparameters are optimized via Hyperopt, a Bayesian optimization
@@ -163,18 +163,17 @@ def train_model(x_train, y_train, x_test, y_test, model_name, get_pipeline_funct
     :param get_pipeline_function: callable to produce a scikit-learn pipeline
     :param model: instantiated model
     :param param_space: search space for parameter optimization via Hyperopt
-    :param cv_folds: number of folds to use in cross validation
+    :param cv_scheme: the cross validation routine we want to use
     :param iterations: number of iterations to use for optimization
     """
     print(f'training model {model_name}...')
     numeric_features, categorical_features = get_num_and_cat_feature_names(x_train)
     pipeline = get_pipeline_function(numeric_features, categorical_features, model)
     param_space.update(PARAM_SPACE_CONSTANT)
-    custom_cv = _create_custom_cv(x_train, INDIVIDUAL_ID, cv_folds)
 
     def _model_objective(params):
         pipeline.set_params(**params)
-        score = cross_val_score(pipeline, x_train, y_train, cv=custom_cv, scoring='neg_mean_squared_error', n_jobs=-1)
+        score = cross_val_score(pipeline, x_train, y_train, cv=cv_scheme, scoring='neg_mean_squared_error', n_jobs=-1)
         return 1 - score.mean()
 
     trials = Trials()
