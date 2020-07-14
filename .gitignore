@@ -3,6 +3,9 @@
 *.pyc
 *.DS_Store
 *.csv
+!data/awards_share.csv
+!data/people.csv
+!data/pitching_stats.csv
 *.xlsx
 *.db
 *.png
