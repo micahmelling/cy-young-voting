@@ -23,7 +23,7 @@ PARAM_SPACE_CONSTANT = {'feature_selector__percentile': hp.randint('feature_sele
 GRADIENT_BOOSTING_PARAM_GRID = {
     'model__learning_rate': hp.uniform('model__learning_rate', 0.01, 0.5),
     'model__n_estimators': hp.randint('model__n_estimators', 75, 150),
-    'model__max_depth': hp.randint('model__max_depth', 2, 10)
+    'model__max_depth': hp.randint('model__max_depth', 2, 16)
 }
 
 XGBOOST_PARAM_GRID = {
